@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= trackName %> Track</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <%- include('header', { user: user }) %>
+  <div class="container">
+    <h1><%= trackName %> Track</h1>
+    <p>Welcome to the <%= trackName %> track! Here you will find the meeting link and resources.</p>
+    <h2>Meeting Link</h2>
+    <p><a href="<%= meetingLink %>" target="_blank"><%= meetingLink %></a></p>
+    <h2>Resources</h2>
+    <ul>
+      <% resources.forEach(resource => { %>
+        <li><a href="<%= resource.link %>" target="_blank"><%= resource.name %></a></li>
+      <% }); %>
+    </ul>
+    <% if (user.isAdmin || user.isSubAdmin) { %>
+      <h2>Add Resource</h2>
+      <form action="/track/<%= encodeURIComponent(trackName.toLowerCase()) %>/add-resource" method="POST">
+        <input type="text" name="resourceName" placeholder="Resource Name" required>
+        <input type="url" name="resourceLink" placeholder="Resource Link" required>
+        <button type="submit">Add Resource</button>
+      </form>
+      <h2>Add Meeting Link</h2>
+      <form action="/track/<%= encodeURIComponent(trackName.toLowerCase()) %>/add-meeting" method="POST">
+        <input type="url" name="meetingLink" placeholder="Meeting Link" required>
+        <button type="submit">Add Meeting Link</button>
+      </form>
+    <% } %>
+    <a href="/home" class="btn">Back to Home</a>
+  </div>
+  <%- include('footer') %>
+</body>
+</html>

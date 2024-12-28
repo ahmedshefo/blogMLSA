@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <img src="/images/logo.png" alt="Logo" class="logo"> <!-- Use local logo path -->
+      <h1>My Website</h1>
+    </div>
+    <div class="top-bar-center">
+      <a href="/home" class="btn">Home</a>
+      <a href="/blog" class="btn">Blog</a> <!-- Add Blog button -->
+    </div>
+    <div class="top-bar-right">
+      <a href="/profile" class="btn">Profile</a> <!-- Add Profile button -->
+      <% if (user && user.isAdmin) { %>
+        <a href="/admin" class="btn">Admin Panel</a>
+      <% } %>
+      <a href="/logout" class="btn logout-btn">Logout</a>
+    </div>
+  </div>
+  <div class="container">
+    <h1>Blog</h1>
+    <% if (user && user.isAdmin) { %>
+      <form action="/blog/add" method="POST" enctype="multipart/form-data">
+        <div class="input-group">
+          <input type="text" name="title" placeholder="Post Title" required>
+        </div>
+        <div class="input-group">
+          <textarea name="content" placeholder="Post Content" required></textarea>
+        </div>
+        <div class="input-group">
+          <input type="file" name="photo" accept="image/*" required>
+        </div>
+        <button type="submit" class="btn">Add Post</button>
+      </form>
+    <% } %>
+    <ul class="post-list">
+      <% posts.forEach(post => { %>
+        <li>
+          <h2><a href="/blog/<%= post.PostId %>"><%= post.Title %></a></h2>
+          <p><%= post.Content.substring(0, 100) %>...</p>
+          <p><small>Posted on <%= post.CreatedAt %> by <%= post.AuthorId %></small></p>
+          <% if (user && user.isAdmin) { %>
+            <form action="/blog/<%= post.PostId %>/delete" method="POST" style="display:inline;">
+              <button type="submit" class="btn delete-btn">Delete</button>
+            </form>
+          <% } %>
+        </li>
+      <% }); %>
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <img src="/images/logo.png" alt="Logo" class="logo"> <!-- Use local logo path -->
+      <h1>My Website</h1>
+    </div>
+    <div class="top-bar-right">
+      <% if (user && user.isAdmin) { %>
+        <a href="/admin" class="btn">Admin Panel</a>
+      <% } %>
+      <a href="/logout" class="btn logout-btn">Logout</a>
+    </div>
+  </div>
+  <div class="container">
+    <h2>Available Events</h2>
+    <ul class="event-list">
+      <% events.forEach(event => { %>
+        <li>
+          <p><strong><%= event.EventName %></strong></p>
+          <p><%= event.EventDate %> at <%= event.EventLocation %></p>
+          <% if (!userEvents.some(e => e.EventId === event.EventId)) { %>
+            <form action="/register-event" method="POST">
+              <input type="hidden" name="eventId" value="<%= event.EventId %>">
+              <button type="submit">Register</button>
+            </form>
+          <% } else { %>
+            <button disabled>Registered</button>
+          <% } %>
+        </li>
+      <% }); %>
+    </ul>
+  </div>
+</body>
+</html>

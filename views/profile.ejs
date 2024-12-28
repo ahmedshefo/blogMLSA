@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <img src="/images/logo.png" alt="Logo" class="logo"> <!-- Use local logo path -->
+      <h1>My Website</h1>
+    </div>
+    <div class="top-bar-center">
+      <a href="/home" class="btn">Home</a>
+      <a href="/blog" class="btn">Blog</a>
+    </div>
+    <div class="top-bar-right">
+      <a href="/profile" class="btn">Profile</a>
+      <% if (user && user.isAdmin) { %>
+        <a href="/admin" class="btn">Admin Panel</a>
+      <% } %>
+      <a href="/logout" class="btn logout-btn">Logout</a>
+    </div>
+  </div>
+  <div class="container">
+    <h1>Profile</h1>
+    <p><strong>Username:</strong> <%= user.Username %></p>
+    <p><strong>Admin:</strong> <%= user.isAdmin ? 'Yes' : 'No' %></p>
+    <p><strong>Sub-Admin:</strong> <%= user.isSubAdmin ? 'Yes' : 'No' %></p>
+  </div>
+</body>
+</html>

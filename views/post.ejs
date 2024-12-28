@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= post.Title %></title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <img src="/images/logo.png" alt="Logo" class="logo"> <!-- Use local logo path -->
+      <h1>My Website</h1>
+    </div>
+    <div class="top-bar-center">
+      <a href="/home" class="btn">Home</a>
+      <a href="/blog" class="btn">Blog</a> <!-- Add Blog button -->
+    </div>
+    <div class="top-bar-right">
+      <% if (user && user.isAdmin) { %>
+        <a href="/admin" class="btn">Admin Panel</a>
+      <% } %>
+      <a href="/logout" class="btn logout-btn">Logout</a>
+    </div>
+  </div>
+  <div class="container">
+    <h1><%= post.Title %></h1>
+    <% if (post.Photo) { %>
+      <img src="<%= post.Photo %>" alt="Post Photo" class="post-photo">
+    <% } %>
+    <p><%= post.Content %></p>
+    <p><small>Posted on <%= post.CreatedAt %> by <%= post.AuthorId %></small></p>
+
+    <h2>Comments</h2>
+    <ul class="comment-list">
+      <% comments.forEach(comment => { %>
+        <li>
+          <p><%= comment.Content %></p>
+          <p><small>Commented on <%= comment.CreatedAt %> by <%= comment.AuthorId %></small></p>
+        </li>
+      <% }); %>
+    </ul>
+
+    <% if (user) { %>
+      <form action="/blog/<%= post.PostId %>/comment" method="POST">
+        <div class="input-group">
+          <textarea name="content" placeholder="Add a comment" required></textarea>
+        </div>
+        <button type="submit" class="btn">Add Comment</button>
+      </form>
+    <% } else { %>
+      <p><a href="/login">Login</a> to add a comment.</p>
+    <% } %>
+  </div>
+</body>
+</html>
